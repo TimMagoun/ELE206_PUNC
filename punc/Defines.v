@@ -32,3 +32,37 @@
 `define BR_N 11        // Location of special bits in BR instruction
 `define BR_Z 10
 `define BR_P 9
+
+//MUX SELECT CONSTANTS
+
+`define PC_SEL_PC_SEXT_8_0 2'd0
+`define PC_SEL_PC_SEXT_10_0 2'd1
+`define PC_SEL_RF_RQ_DATA 2'd2
+
+`define DMEM_R_ADDR_PC 2'd0
+`define DMEM_R_ADDR_PC_SEXT_8_0 2'd1
+`define DMEM_R_ADDR_RF_RP_DATA 2'd2
+`define DMEM_R_ADDR_RF_RQ_DATA_SEXT_5_0 2'd3
+
+`define DMEM_W_ADDR_PC_SEXT_8_0 2'd0
+`define DMEM_W_ADDR_TEMP_DATA 2'd1
+`define DMEM_W_ADDR_RF_RQ_DATA_SEXT_5_0 2'd2
+
+`define RF_W_ADDR_111 1'd0
+`define RF_W_ADDR_IR_11_9 1'd1
+
+`define RF_RP_ADDR_IR_11_9 1'd0
+`define RF_RP_ADDR_IR_2_0 1'd1
+
+`define RF_W_DATA_ALU 2'd0
+`define RF_W_DATA_PC_SEXT_8_0 2'd1
+`define RF_W_DATA_DMEM_R_DATA 2'd2
+`define RF_W_DATA_PC 2'd3
+
+`define ALU_IN_A_RP_DATA 1'd0
+`define ALU_IN_A_IR_4_0 1'd1
+
+`define ALU_SEL_PASS_A 2'd0
+`define ALU_SEL_ADD 2'd1
+`define ALU_SEL_AND 2'd2
+`define ALU_SEL_NOT 2'd3
