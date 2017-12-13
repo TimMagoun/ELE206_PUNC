@@ -33,36 +33,43 @@
 `define BR_Z 10
 `define BR_P 9
 
-//MUX SELECT CONSTANTS
+`define PC_Data_Sel_PC_8_0          2'd0    //Selecting PC_Data
+`define PC_Data_Sel_PC_10_0         2'd1 
+`define PC_Data_Sel_RF_Rq_Data      2'd2
 
-`define PC_SEL_PC_SEXT_8_0 2'd0
-`define PC_SEL_PC_SEXT_10_0 2'd1
-`define PC_SEL_RF_RQ_DATA 2'd2
+`define DMem_R_Addr_Sel_PC          2'd0;   //Selecting DMem_R_Addr
+`define DMem_R_Addr_Sel_PC_8_0      2'd1;
+`define DMem_R_Addr_Sel_RF_Rp_Data  2'd2;
+`define DMem_R_Addr_Sel_RF_Rq_5_0   2'd3;
 
-`define DMEM_R_ADDR_PC 2'd0
-`define DMEM_R_ADDR_PC_SEXT_8_0 2'd1
-`define DMEM_R_ADDR_RF_RP_DATA 2'd2
-`define DMEM_R_ADDR_RF_RQ_DATA_SEXT_5_0 2'd3
+`define DMem_W_Addr_Sel_PC_8_0      2'd0;   //Selecting DMem_W_Addr
+`define DMem_W_Addr_Sel_Temp_Data   2'd1;
+`define DMem_W_Addr_Sel_RF_Rq_5_0   2'd2;
 
-`define DMEM_W_ADDR_PC_SEXT_8_0 2'd0
-`define DMEM_W_ADDR_TEMP_DATA 2'd1
-`define DMEM_W_ADDR_RF_RQ_DATA_SEXT_5_0 2'd2
+`define RF_W_Addr_Sel_R7            1'd0;   //Selecting RF_W_Addr
+`define RF_W_Addr_Sel_11_9          1'd1;
 
-`define RF_W_ADDR_111 1'd0
-`define RF_W_ADDR_IR_11_9 1'd1
+`define RF_Rp_Addr_Sel_11_9         1'd0;   //Selecting RF_Rp_Addr
+`define RF_Rp_Addr_Sel_2_0          1'd1;
 
-`define RF_RP_ADDR_IR_11_9 1'd0
-`define RF_RP_ADDR_IR_2_0 1'd1
+`define RF_W_Data_Sel_ALU           2'd0;   //Selecting RF_W_Data_ALU
+`define RF_W_Data_Sel_PC_8_0        2'd1;
+`define RF_W_Data_Sel_DMem_R        2'd2;
+`define RF_W_Data_Sel_PC            2'd3;
 
-`define RF_W_DATA_ALU 2'd0
-`define RF_W_DATA_PC_SEXT_8_0 2'd1
-`define RF_W_DATA_DMEM_R_DATA 2'd2
-`define RF_W_DATA_PC 2'd3
+`define ALU_In_A_Sel_Rp_Data        1'd0;   //Selecting ALU Input A
+`define ALU_In_A_4_0                1'd1;
 
-`define ALU_IN_A_RP_DATA 1'd0
-`define ALU_IN_A_IR_4_0 1'd1
+`define ALU_Fn_Sel_PassA            2'd0;   //Selecting ALU Functions
+`define ALU_Fn_Sel_ADD              2'd1;
+`define ALU_Fn_Sel_AND              2'd2;
+`define ALU_Fn_Sel_NOT_B            2'd3;  
 
-`define ALU_SEL_PASS_A 2'd0
-`define ALU_SEL_ADD 2'd1
-`define ALU_SEL_AND 2'd2
-`define ALU_SEL_NOT 2'd3
+
+
+
+
+
+
+
+
