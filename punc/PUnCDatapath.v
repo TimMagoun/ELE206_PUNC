@@ -143,16 +143,16 @@ module PUnCDatapath(
 		
 		//DMEM Muxes
 		case (dmem_r_addr_sel)
-			DMEM_R_ADDR_PC: begin
+			DMem_R_Addr_Sel_PC: begin
 			dmem_r_addr = pc;
 			end
-			DMEM_R_ADDR_PC_SEXT_8_0: begin
+			DMem_R_Addr_Sel_PC_8_0: begin
 			dmem_r_addr = pc + ir_sext_8_0;
 			end
-			DMEM_R_ADDR_RF_RP_DATA: begin
+			DMem_R_Addr_Sel_RF_Rp_Data: begin
 			dmem_r_addr = rf_rp_data;
 			end
-			DMEM_R_ADDR_RF_RQ_DATA_SEXT_5_0: begin
+			DMem_R_Addr_Sel_RF_Rq_5_0: begin
 			dmem_r_addr = rf_rq_data + ir_sext_5_0;
 			end
 		endcase
@@ -161,5 +161,9 @@ module PUnCDatapath(
 	end
 
 	//TODO: Add sequential logic
+	always @(posedge clk) begin
+	  
+	  
+	end
 
 endmodule
