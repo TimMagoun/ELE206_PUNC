@@ -13,8 +13,6 @@ module PUnCControl(
 	input [15:0]		ir,
 	input				nzp_match,
 
-	//Output Signals to DataPath
-
 	//Instruction Register Controls
 	output reg 			IR_clr,
 	output reg			IR_ld,
@@ -278,7 +276,7 @@ module PUnCControl(
 
 		//Next-state logic
 		case (state)
-			 STATE_INIT: begin
+		 STATE_INIT: begin
             next_state = STATE_FETCH;
          end
          STATE_FETCH: begin
@@ -289,13 +287,13 @@ module PUnCControl(
          end
          STATE_EXECUTE: begin
             if (ir[`OC] == `OC_JSR | ir[`OC] == `OC_LDI | ir[`OC] == `OC_STI) begin
-            	next_state = STATE_EXECUTE_I;
+            	next_state = STATE_EXECUTE2;
             end
             else begin
                next_state = STATE_FETCH;
             end
          end
-         STATE_EXECUTE_I: begin
+         STATE_EXECUTE2: begin
             next_state = STATE_FETCH;
          end
 		endcase
