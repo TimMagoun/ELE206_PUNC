@@ -289,6 +289,9 @@ module PUnCControl(
             if (ir[`OC] == `OC_JSR | ir[`OC] == `OC_LDI | ir[`OC] == `OC_STI) begin
             	next_state = STATE_EXECUTE2;
             end
+			else if(ir[`OC] == `OC_HLT) begin
+			  next_state = STATE_EXECUTE;
+			end
             else begin
                next_state = STATE_FETCH;
             end

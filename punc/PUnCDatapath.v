@@ -37,7 +37,7 @@ module PUnCDatapath(
 	input reg nzp_ld,
 	input reg nzp_clr,
 
-	input reg alu_sel [1:0],
+	input reg [1:0] alu_sel,
 	input reg alu_in_a_sel,
 
 	output wire nzp_match,
@@ -63,7 +63,7 @@ module PUnCDatapath(
 	reg 	[15:0] 		ir_sext_4_0;
 	
 
-	reg temp;
+	reg [15:0] temp;
 
 	reg 	[15:0] 		dmem_r_addr;
 	reg 	[15:0] 		dmem_w_addr;
@@ -79,8 +79,8 @@ module PUnCDatapath(
 	reg z; 
 	reg p;
 
-	reg alu_in_a;
-	reg alu_out;
+	reg [15:0] alu_in_a;
+	reg [15:0] alu_out;
 
 	// Declare other local wires and registers here
 
@@ -228,7 +228,7 @@ module PUnCDatapath(
 		endcase
 	end
 
-	always @(*) begin	//
+	always @(*) begin	//ALU Muxes
 		alu_in_a = 0;
 		alu_out = 0;
 
