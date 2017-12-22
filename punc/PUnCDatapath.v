@@ -8,40 +8,40 @@
 
 module PUnCDatapath(
 	// External Inputs
-	input  wire        clk,            // Clock
-	input  wire        rst,            // Reset
+	input  			clk,            // Clock
+	input  			rst,            // Reset
+
+	input 			pc_ld, 
+	input 			pc_clr,
+	input 			pc_inc,
+	input 	[1:0] 	pc_sel,
+
+	input 			ir_ld,
+	input 			ir_clr,
 	
-	input reg pc_ld, 
-	input reg pc_clr,
-	input reg pc_inc,
-	input reg [1:0] pc_sel,
-
-	input	reg ir_ld,
-	input	reg ir_clr,
+	input 			dmem_rd,
+	input 			dmem_wr,
+	input 	[1:0] 	dmem_r_addr_sel,
+	input 	[1:0] 	dmem_w_addr_sel,
 	
-	input reg dmem_rd,
-	input reg dmem_wr,
-	input reg [1:0] dmem_r_addr_sel,
-	input reg [1:0] dmem_w_addr_sel,
+	input 	[1:0] 	rf_w_data_sel,
+	input 			rf_w_addr_sel,
+	input 			rf_w_wr,
 	
-	input reg [1:0] rf_w_data_sel,
-	input reg rf_w_addr_sel,
-	input reg rf_w_wr,
-	
-	input reg rf_rp_addr_sel,
-	input reg rf_rp_rd,
-	input reg rf_rq_rd,
+	input 			rf_rp_addr_sel,
+	input 			rf_rp_rd,
+	input 			rf_rq_rd,
 
-	input reg temp_ld,
+	input 			temp_ld,
 
-	input reg nzp_ld,
-	input reg nzp_clr,
+	input 			nzp_ld,
+	input 			nzp_clr,
 
-	input reg [1:0] alu_sel,
-	input reg alu_in_a_sel,
+	input	[1:0] 	alu_sel,
+	input 			alu_in_a_sel,
 
-	output wire nzp_match,
-	output wire [15:0] ir_out,
+	output 			nzp_match,
+	output	[15:0] 	ir_out,
 
 	// DEBUG Signals
 	input  wire [15:0] mem_debug_addr,
@@ -61,9 +61,8 @@ module PUnCDatapath(
 	reg 	[15:0]		ir_sext_8_0;
 	reg 	[15:0]		ir_sext_5_0;
 	reg 	[15:0] 		ir_sext_4_0;
-	
 
-	reg [15:0] temp;
+	reg 	[15:0] 		temp;
 
 	reg 	[15:0] 		dmem_r_addr;
 	reg 	[15:0] 		dmem_w_addr;
@@ -71,16 +70,16 @@ module PUnCDatapath(
 
 	reg 	[2:0] 		rf_w_addr;
 	reg 	[15:0]		rf_w_data;
-	reg 	[2:0]			rf_rp_addr;
+	reg 	[2:0]		rf_rp_addr;
 	wire 	[15:0]		rf_rp_data;
 	wire 	[15:0]		rf_rq_data;
 
-	reg n;
+	reg n;	
 	reg z; 
 	reg p;
 
-	reg [15:0] alu_in_a;
-	reg [15:0] alu_out;
+	reg 	[15:0] 		alu_in_a;
+	reg 	[15:0]		alu_out;
 
 	// Declare other local wires and registers here
 
@@ -129,7 +128,8 @@ module PUnCDatapath(
 	//----------------------------------------------------------------------
 	// Add all other datapath logic here
 	//----------------------------------------------------------------------
-	always @(*) begin
+	
+	always @(*) begin //Sign Extend Circuit
 		ir_sext_10_0 = {{5{ir[10]}},ir[10:0]};
 		ir_sext_8_0 = {{7{ir[8]}},ir[8:0]};
 		ir_sext_5_0 = {{10{ir[5]}},ir[5:0]};
@@ -259,7 +259,7 @@ module PUnCDatapath(
 		endcase
 	end
 
-	always @(posedge clk) begin
+	always @(posedge clk) begin //Sequential Logic
 
 		//Temp
 		if(temp_ld) begin
@@ -286,7 +286,7 @@ module PUnCDatapath(
 		  p = rf_w_data > 0;
 		end
 
-		//PC store
+		//PC
 		if (pc_clr) begin
 		  pc = 16'b0;
 		end

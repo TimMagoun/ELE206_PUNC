@@ -58,22 +58,6 @@ module PUnC(
 	wire	[1:0]	ALU_sel;
 	wire			ALU_In_A;
 
-
-	wire [1:0] rf_w_data_sel;
-	wire rf_w_addr_sel;
-	wire rf_w_wr;
-	
-	wire rf_rp_addr_sel;
-	wire rf_rp_rd;
-	wire rf_rq_rd;
-
-	wire temp_ld;
-	
-	wire nzp_ld;
-	wire nzp_clr;
-	
-	wire [1:0] alu_sel;
-	wire alu_in_a;
 	//----------------------------------------------------------------------
 	// Control Module
 	//----------------------------------------------------------------------
