@@ -128,7 +128,7 @@ module PUnCTATest;
 		$display("\n\n\n===========================");
 		$display("=== Beginning All Tests ===");
 		$display("===========================");
-
+		/*
 		`START_TEST("addi");
 		`WAIT_PC_FREEZE;
 		`ASSERT_REG_EQ(0, 16'd3);
@@ -193,12 +193,13 @@ module PUnCTATest;
 		`START_TEST("jmp");
 		`WAIT_PC_FREEZE;
 		`ASSERT_REG_EQ(1, 16'd1);
+		*/
 
 		`START_TEST("jsr");
 		`WAIT_PC_FREEZE;
 		`ASSERT_REG_EQ(0, 16'd1);
 		`ASSERT_REG_EQ(7, 16'd1);
-
+		/*
 		`START_TEST("jsrr");
 		`WAIT_PC_FREEZE;
 		`ASSERT_REG_EQ(1, 16'd3);
@@ -206,7 +207,7 @@ module PUnCTATest;
 		`START_TEST("ret");
 		`WAIT_PC_FREEZE;
 		`ASSERT_REG_EQ(1, 16'd1);
-
+		*/
 		`START_TEST("br");
 		`WAIT_PC_FREEZE;
 		`ASSERT_REG_EQ(1, 16'd5);
