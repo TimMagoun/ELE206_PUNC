@@ -8,40 +8,40 @@
 
 module PUnCDatapath(
 	// External Inputs
-	input  			clk,            // Clock
-	input  			rst,            // Reset
+	input  	wire 		rst,            // Reset
+	input  	wire 		clk,            // Clock
 
-	input 			pc_ld, 
-	input 			pc_clr,
-	input 			pc_inc,
-	input 	[1:0] 	pc_sel,
+	input 	wire 		pc_ld, 
+	input 	wire 		pc_clr,
+	input 	wire 		pc_inc,
+	input 	wire [1:0] 	pc_sel,
 
-	input 			ir_ld,
-	input 			ir_clr,
+	input 	wire 		ir_ld,
+	input 	wire 		ir_clr,
 	
-	input 			dmem_rd,
-	input 			dmem_wr,
-	input 	[1:0] 	dmem_r_addr_sel,
-	input 	[1:0] 	dmem_w_addr_sel,
+	input 	wire 		dmem_rd,
+	input 	wire 		dmem_wr,
+	input 	wire [1:0] 	dmem_r_addr_sel,
+	input 	wire [1:0] 	dmem_w_addr_sel,
 	
-	input 	[1:0] 	rf_w_data_sel,
-	input 			rf_w_addr_sel,
-	input 			rf_w_wr,
+	input 	wire [1:0] 	rf_w_data_sel,
+	input 	wire 		rf_w_addr_sel,
+	input 	wire 		rf_w_wr,
 	
-	input 			rf_rp_addr_sel,
-	input 			rf_rp_rd,
-	input 			rf_rq_rd,
+	input 	wire 		rf_rp_addr_sel,
+	input 	wire 		rf_rp_rd,
+	input 	wire 		rf_rq_rd,
 
-	input 			temp_ld,
+	input 	wire 		temp_ld,
 
-	input 			nzp_ld,
-	input 			nzp_clr,
+	input 	wire 		nzp_ld,
+	input 	wire 		nzp_clr,
 
-	input	[1:0] 	alu_sel,
-	input 			alu_in_a_sel,
+	input	wire [1:0] 	alu_sel,
+	input 	wire 		alu_in_a_sel,
 
-	output 			nzp_match,
-	output	[15:0] 	ir_out,
+	output 	wire 		nzp_match,
+	output	wire [15:0] ir_out,
 
 	// DEBUG Signals
 	input  wire [15:0] mem_debug_addr,
@@ -153,9 +153,6 @@ module PUnCDatapath(
 	end
 	
 	always @(*) begin	//DMEM Muxes
-		dmem_r_addr = 0;
-		dmem_w_addr = 0;
-
 		//R_addr
 		case (dmem_r_addr_sel)
 			`DMem_R_Addr_Sel_PC : begin
@@ -187,10 +184,6 @@ module PUnCDatapath(
 	end	
 	
 	always @(*) begin	//RF Muxes
-		rf_w_addr = 0;
-		rf_w_data = 0;
-		rf_rp_addr = 0;
-
 		//rf_w_addr
 		case (rf_w_addr_sel)
 			`RF_W_Addr_Sel_R7: begin
@@ -229,9 +222,6 @@ module PUnCDatapath(
 	end
 
 	always @(*) begin	//ALU Muxes
-		alu_in_a = 0;
-		alu_out = 0;
-
 		//alu_in_a_sel
 		case (alu_in_a_sel)
 			`ALU_In_A_Sel_Rp_Data: begin

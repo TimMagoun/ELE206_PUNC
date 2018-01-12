@@ -228,12 +228,8 @@ module PUnCControl(
 						RF_Rq_rd		= 1'b1;
 					end
 
-					`OC_HLT:begin
+					`OC_HLT:begin					
 					end
-
-					default:begin
-					end
-
 
 				endcase
 			end
@@ -293,7 +289,7 @@ module PUnCControl(
             	next_state = STATE_EXECUTE2;
             end
 			else if(ir[`OC] == `OC_HLT) begin
-			  next_state = STATE_HALT;
+			  next_state = STATE_EXECUTE;
 			end
             else begin
                next_state = STATE_FETCH;
@@ -302,9 +298,6 @@ module PUnCControl(
          STATE_EXECUTE2: begin
             next_state = STATE_FETCH;
          end
-		 STATE_HALT: begin
-			next_state = STATE_HALT;
-		 end
 		endcase
 	end
 
