@@ -244,10 +244,6 @@ module PUnCControl(
 							PC_sel 	= `PC_Data_Sel_RF_Rq_Data;
 						end			
 					end
-					
-					(`OC_JSR & ir[11] == 1'b0): begin
-									
-					end
 
 					`OC_LDI: begin
 						DMem_rd = 1'b1;
