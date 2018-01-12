@@ -271,9 +271,9 @@ module PUnCDatapath(
 		  p = 1'b0;
 		end
 		else if (nzp_ld) begin
-		  n = rf_w_data < 0;
+		  n = rf_w_data[15];
 		  z = rf_w_data == 0;
-		  p = rf_w_data > 0;
+		  p = ~rf_w_data[15] & ~z;
 		end
 
 		//PC
