@@ -86,7 +86,6 @@ module PUnCControl(
 		ALU_sel 			= 2'd0;
 		ALU_In_A 			= 1'd0;
 
-
 		// Add your output logic here
 		case (state)
 			STATE_INIT: begin
@@ -162,8 +161,9 @@ module PUnCControl(
 					end
 
 					`OC_JSR: begin
-						RF_W_data_sel = `RF_W_Data_Sel_PC;
-						RF_W_addr_sel = `RF_W_Addr_Sel_R7;
+						RF_W_data_sel 	= `RF_W_Data_Sel_PC;
+						RF_W_addr_sel 	= `RF_W_Addr_Sel_R7;
+						RF_W_wr			= 1'b1;
 					end
 
 					`OC_LD:begin
@@ -236,14 +236,18 @@ module PUnCControl(
 
 			STATE_EXECUTE2:begin
 				case(ir[`OC])
-					(`OC_JSR & ir[11] == 1'b1): begin
+					`OC_JSR: begin
 						PC_ld 	= 1'b1;
-						PC_sel 	= `PC_Data_Sel_PC_10_0;			
+						if(ir[11] == 1'b1) begin
+							PC_sel 	= `PC_Data_Sel_PC_10_0;
+						end
+						else begin
+							PC_sel 	= `PC_Data_Sel_RF_Rq_Data;
+						end			
 					end
 					
 					(`OC_JSR & ir[11] == 1'b0): begin
-						PC_ld 	= 1'b1;
-						PC_sel 	= `PC_Data_Sel_RF_Rq_Data;			
+									
 					end
 
 					`OC_LDI: begin
