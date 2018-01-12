@@ -37,8 +37,8 @@ module PUnCDatapath(
 	input 	wire 		nzp_ld,
 	input 	wire 		nzp_clr,
 
-	input	wire [1:0] 	alu_sel,
-	input 	wire 		alu_in_a_sel,
+	input wire [1:0] alu_sel,
+	input wire alu_in_a_sel,
 
 	output 	wire 		nzp_match,
 	output	wire [15:0] ir_out,
@@ -77,10 +77,10 @@ module PUnCDatapath(
 	reg n;	
 	reg z; 
 	reg p;
-
-	reg 	[15:0] 		alu_in_a;
-	reg 	[15:0]		alu_out;
-
+  
+	reg [15:0] alu_in_a;
+	reg [15:0] alu_out;
+  
 	// Declare other local wires and registers here
 
 	// Assign default outputs
@@ -128,7 +128,7 @@ module PUnCDatapath(
 	//----------------------------------------------------------------------
 	// Add all other datapath logic here
 	//----------------------------------------------------------------------
-	
+
 	always @(*) begin //Sign Extend Circuit
 		ir_sext_10_0 = {{5{ir[10]}},ir[10:0]};
 		ir_sext_8_0 = {{7{ir[8]}},ir[8:0]};
