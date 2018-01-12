@@ -147,12 +147,11 @@ module PUnCControl(
 						end
 					end
 
-					(`OC_BR & nzp_match == 1'b1): begin
-						PC_ld 	= 1'b1;
-						PC_sel 	= `PC_Data_Sel_PC_8_0;
-					end
-
-					(`OC_BR & nzp_match == 1'b1): begin
+					`OC_BR: begin
+						if (nzp_match == 1'b1) begin
+							PC_ld 	= 1'b1;
+							PC_sel 	= `PC_Data_Sel_PC_8_0;
+						end
 					end
 
 					`OC_JMP: begin
