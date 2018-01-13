@@ -128,7 +128,7 @@ module PUnCTATest;
 		$display("\n\n\n===========================");
 		$display("=== Beginning All Tests ===");
 		$display("===========================");
-		/*
+		
 		`START_TEST("addi");
 		`WAIT_PC_FREEZE;
 		`ASSERT_REG_EQ(0, 16'd3);
@@ -216,7 +216,7 @@ module PUnCTATest;
 		`ASSERT_REG_EQ(0, 16'd3);
 		`ASSERT_REG_EQ(1, 16'd3);
 		`ASSERT_MEM_EQ(23, 16'd3);
-		*/
+		
 		// ADD YOUR TEST HERE!
 		`START_TEST("reverseceaser");
 		`WAIT_PC_FREEZE;
