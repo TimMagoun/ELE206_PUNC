@@ -128,7 +128,7 @@ module PUnCTATest;
 		$display("\n\n\n===========================");
 		$display("=== Beginning All Tests ===");
 		$display("===========================");
-
+		/*
 		`START_TEST("addi");
 		`WAIT_PC_FREEZE;
 		`ASSERT_REG_EQ(0, 16'd3);
@@ -193,12 +193,12 @@ module PUnCTATest;
 		`START_TEST("jmp");
 		`WAIT_PC_FREEZE;
 		`ASSERT_REG_EQ(1, 16'd1);
-
+		
 		`START_TEST("jsr");
 		`WAIT_PC_FREEZE;
 		`ASSERT_REG_EQ(0, 16'd1);
 		`ASSERT_REG_EQ(7, 16'd1);
-
+		
 		`START_TEST("jsrr");
 		`WAIT_PC_FREEZE;
 		`ASSERT_REG_EQ(1, 16'd3);
@@ -206,7 +206,7 @@ module PUnCTATest;
 		`START_TEST("ret");
 		`WAIT_PC_FREEZE;
 		`ASSERT_REG_EQ(1, 16'd1);
-
+		
 		`START_TEST("br");
 		`WAIT_PC_FREEZE;
 		`ASSERT_REG_EQ(1, 16'd5);
@@ -216,8 +216,15 @@ module PUnCTATest;
 		`ASSERT_REG_EQ(0, 16'd3);
 		`ASSERT_REG_EQ(1, 16'd3);
 		`ASSERT_MEM_EQ(23, 16'd3);
-
+		*/
 		// ADD YOUR TEST HERE!
+		`START_TEST("reverseceaser");
+		`WAIT_PC_FREEZE;
+		`ASSERT_MEM_EQ(19, 16'd115);
+		`ASSERT_MEM_EQ(20, 16'd112);
+		`ASSERT_MEM_EQ(21, 16'd119);
+		`ASSERT_MEM_EQ(22, 16'd119);
+		`ASSERT_MEM_EQ(23, 16'd122);
 
 		$display("\n----------------------------");
 		$display("--- Completed %d Tests  ----", test_cnt);

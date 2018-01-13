@@ -8,40 +8,40 @@
 
 module PUnCDatapath(
 	// External Inputs
-	input  wire        clk,            // Clock
-	input  wire        rst,            // Reset
-	
-	input wire pc_ld, 
-	input wire pc_clr,
-	input wire pc_inc,
-	input wire [1:0] pc_sel,
+	input  	wire 		rst,            // Reset
+	input  	wire 		clk,            // Clock
 
-	input wire ir_ld,
-	input wire ir_clr,
-	
-	input wire dmem_rd,
-	input wire dmem_wr,
-	input wire [1:0] dmem_r_addr_sel,
-	input wire [1:0] dmem_w_addr_sel,
-	
-	input wire [1:0] rf_w_data_sel,
-	input wire rf_w_addr_sel,
-	input wire rf_w_wr,
-	
-	input wire rf_rp_addr_sel,
-	input wire rf_rp_rd,
-	input wire rf_rq_rd,
+	input 	wire 		pc_ld, 
+	input 	wire 		pc_clr,
+	input 	wire 		pc_inc,
+	input 	wire [1:0] 	pc_sel,
 
-	input wire temp_ld,
+	input 	wire 		ir_ld,
+	input 	wire 		ir_clr,
+	
+	input 	wire 		dmem_rd,
+	input 	wire 		dmem_wr,
+	input 	wire [1:0] 	dmem_r_addr_sel,
+	input 	wire [1:0] 	dmem_w_addr_sel,
+	
+	input 	wire [1:0] 	rf_w_data_sel,
+	input 	wire 		rf_w_addr_sel,
+	input 	wire 		rf_w_wr,
+	
+	input 	wire 		rf_rp_addr_sel,
+	input 	wire 		rf_rp_rd,
+	input 	wire 		rf_rq_rd,
 
-	input wire nzp_ld,
-	input wire nzp_clr,
+	input 	wire 		temp_ld,
+
+	input 	wire 		nzp_ld,
+	input 	wire 		nzp_clr,
 
 	input wire [1:0] alu_sel,
 	input wire alu_in_a_sel,
 
-	output wire nzp_match,
-	output wire [15:0] ir_out,
+	output 	wire 		nzp_match,
+	output	wire [15:0] ir_out,
 
 	// DEBUG Signals
 	input  wire [15:0] mem_debug_addr,
@@ -50,43 +50,43 @@ module PUnCDatapath(
 	output wire [15:0] rf_debug_data,
 	output wire [15:0] pc_debug_data
 
-	// Add more ports here
 );
 
 	// Local Registers
-	reg [15:0] pc;
-	reg [15:0] pc_w_data;
-	reg [15:0] ir;
+	reg  	[15:0] 		pc;
+	reg  	[15:0] 		pc_w_data;
+	reg  	[15:0] 		ir;
 
-	reg [15:0] ir_sext_10_0;
-	reg [15:0] ir_sext_8_0;
-	reg [15:0] ir_sext_5_0;
-	reg [15:0] ir_sext_4_0;
-	
+	reg 	[15:0]		ir_sext_10_0;
+	reg 	[15:0]		ir_sext_8_0;
+	reg 	[15:0]		ir_sext_5_0;
+	reg 	[15:0] 		ir_sext_4_0;
 
-	reg [15:0] temp;
+	reg 	[15:0] 		temp;
 
-	reg [15:0] dmem_r_addr;
-	reg [15:0] dmem_w_addr;
-	wire [15:0] dmem_r_data;
+	reg 	[15:0] 		dmem_r_addr;
+	reg 	[15:0] 		dmem_w_addr;
+	wire 	[15:0] 		dmem_r_data;
 
-	reg [2:0] rf_w_addr;
-	reg [15:0] rf_w_data;
-	reg [2:0] rf_rp_addr;
-	wire [15:0] rf_rp_data;
-	wire [15:0] rf_rq_data;
+	reg 	[2:0] 		rf_w_addr;
+	reg 	[15:0]		rf_w_data;
+	reg 	[2:0]		rf_rp_addr;
+	wire 	[15:0]		rf_rp_data;
+	wire 	[15:0]		rf_rq_data;
 
-	reg n;
+	reg n;	
 	reg z; 
 	reg p;
-
+  
 	reg [15:0] alu_in_a;
 	reg [15:0] alu_out;
-
+  
 	// Declare other local wires and registers here
 
-	// Assign PC debug net
+	// Assign default outputs
 	assign pc_debug_data = pc;
+	assign ir_out = ir;
+	assign nzp_match = (ir[`BR_N] & n) | (ir[`BR_Z] & z) | (ir[`BR_P] & p) | (~ir[`BR_N] & ~ir[`BR_Z] & ~ir[`BR_P]);
 
 
 	//----------------------------------------------------------------------
@@ -129,40 +129,33 @@ module PUnCDatapath(
 	// Add all other datapath logic here
 	//----------------------------------------------------------------------
 
-		//PC debug
-		assign pc_debug_data = pc;
-		//Sends IR to controller & sign extending
-		assign ir_out = ir;	
-		//checks nzp N&n | Z&z | P&p | NAND(NZP)
-		assign nzp_match = (ir[`BR_N] && n) || (ir[`BR_Z] && z) || (ir[`BR_P] && p) || (!ir[`BR_N] && !ir[`BR_Z] && !ir[`BR_P]);
-		
-
-	always @(*) begin
-		
+	always @(*) begin //Sign Extend Circuit
 		ir_sext_10_0 = {{5{ir[10]}},ir[10:0]};
 		ir_sext_8_0 = {{7{ir[8]}},ir[8:0]};
 		ir_sext_5_0 = {{10{ir[5]}},ir[5:0]};
 		ir_sext_4_0 = {{11{ir[4]}},ir[4:0]};
-		
-		
-		//PC Muxes
+	end
+
+	always @(*) begin	//PC Muxes
+		pc_w_data = 0;
+
 		case (pc_sel)
 			`PC_Data_Sel_PC_8_0: begin
-			pc_w_data = pc + ir_sext_8_0;
+				pc_w_data = pc + ir_sext_8_0;
 			end
 			`PC_Data_Sel_PC_10_0: begin
-			pc_w_data = pc + ir_sext_10_0;
+				pc_w_data = pc + ir_sext_10_0;
 			end
 			`PC_Data_Sel_RF_Rq_Data: begin
-			pc_w_data = rf_rq_data;
+				pc_w_data = rf_rq_data;
 			end
 		endcase
-
-		//DMEM Muxes
-
+	end
+	
+	always @(*) begin	//DMEM Muxes
 		//R_addr
 		case (dmem_r_addr_sel)
-			`DMem_R_Addr_Sel_PC: begin
+			`DMem_R_Addr_Sel_PC : begin
 				dmem_r_addr = pc;
 			end
 			`DMem_R_Addr_Sel_PC_8_0: begin
@@ -175,6 +168,7 @@ module PUnCDatapath(
 				dmem_r_addr = rf_rq_data + ir_sext_5_0;
 			end
 		endcase
+		
 		//W_addr
 		case (dmem_w_addr_sel)
 			`DMem_W_Addr_Sel_PC_8_0: begin
@@ -187,9 +181,9 @@ module PUnCDatapath(
 				dmem_w_addr = rf_rq_data + ir_sext_5_0;
 			end
 		endcase
-		
-		//RF Muxes
-
+	end	
+	
+	always @(*) begin	//RF Muxes
 		//rf_w_addr
 		case (rf_w_addr_sel)
 			`RF_W_Addr_Sel_R7: begin
@@ -225,8 +219,9 @@ module PUnCDatapath(
 			  rf_rp_addr = ir[2:0];
 			end
 		endcase
+	end
 
-		//ALU
+	always @(*) begin	//ALU Muxes
 		//alu_in_a_sel
 		case (alu_in_a_sel)
 			`ALU_In_A_Sel_Rp_Data: begin
@@ -254,7 +249,7 @@ module PUnCDatapath(
 		endcase
 	end
 
-	always @(posedge clk) begin
+	always @(posedge clk) begin //Sequential Logic
 
 		//Temp
 		if(temp_ld) begin
@@ -276,12 +271,12 @@ module PUnCDatapath(
 		  p = 1'b0;
 		end
 		else if (nzp_ld) begin
-		  n = rf_w_data < 0;
+		  n = rf_w_data[15];
 		  z = rf_w_data == 0;
-		  p = rf_w_data > 0;
+		  p = ~rf_w_data[15] & ~z;
 		end
 
-		//PC store
+		//PC
 		if (pc_clr) begin
 		  pc = 16'b0;
 		end
@@ -291,9 +286,5 @@ module PUnCDatapath(
 		else if(pc_ld) begin
 		  pc = pc_w_data;
 		end
-	  
-		
-
 	end
-
 endmodule
