@@ -1,23 +1,23 @@
-LD R0 #15
-LEA R6 #24
-NOT R0 R0
-ADD R0 R0 #1
-LEA R5 #-102
-LDI R1 #12
-LDR R3 R1 #19
-BRZ #7
-ADD R2 R3 R0
-ADD R4 R2 R5
-BRZP #1
-ADD R2 R2 R6
-STR R2 R1 #19
-ADD R1 R1 #1
-JSR #-9
-HALT
-000F
-0000
-0011
-0061
+LD R0 #15       //Loads R0 with the shift value ( Stored at mem[16] )
+LEA R6 #24      //Loads R6 with PC (= 2) + 24 = 26, Since we can not directly load because +26 takes up more than 5 bits
+NOT R0 R0       //Complements the value in R0
+ADD R0 R0 #1    //Adds one to R0 to complete the 2's complement conversion
+LEA R5 #-102    //Loads R5 with ASCII for 'a', This is a negative value for subtraction later
+LDI R1 #12      //Loads R1 with 0, which is the starting index. R1 is used to store the index when iterating through the source string
+LDR R3 R1 #19   //Loads the ASCII of the character of the source string, at the index given by R1, into R3.
+BRZ #7          //Jumps to HALT (at mem[16]) if that character is zero
+ADD R2 R3 R0    //Adds the shift value(R0) to the current character(R3) and stores it in R2
+ADD R4 R2 R5    //Adds the negative value of 'a' to the ciphered text, to check if the cipher text has underflowed
+BRZP #1         //Skips the next instruction if the result in the prev. instruction is not negative
+ADD R2 R2 R6    //If it is negative (ie.the encryption has caused an underflow) it adds 26 (R6) to the ciphered char
+STR R2 R1 #19   //Replaces the current letter with the final ciphered char result
+ADD R1 R1 #1    //Increments the index (R1)
+JSR #-9         //Jumps back to get the next character
+HALT            //End of Algorithm
+000F            //Shift value
+0000            //Initial Index Value
+0011            //Address of Initial Index Value
+0061            //Start of string
 0062
 0063
 0064
@@ -43,4 +43,4 @@ HALT
 0078
 0079
 007A
-0000
+0000            //Null pointer to end string
